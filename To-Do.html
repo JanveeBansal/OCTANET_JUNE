@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Website To Do List </title>
+  <style>
+   body {
+  font-family: cursive, sans-serif;
+  background-color: black
+}
+
+.task-container {
+  max-width: 500px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #6462e3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+.task-input {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.task-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.task-item.completed {
+  background-color: #f1f1f1;
+}
+
+.task-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.task-item label {
+  flex-grow: 1;
+}
+
+.task-item .priority,
+.task-item .deadline,
+.task-item .label {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #292727;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="task-container">
+    <h2>Website To Do List</h2>
+    <form id="task-form">
+      <div class="task-input">
+        <label for="task-name">Task Name:</label>
+        <input type="text" id="task-name" required>
+      </div>
+      <div class="task-input">
+        <label for="task-priority">Priority:</label>
+        <select id="task-priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <div class="task-input">
+        <label for="task-deadline">Deadline:</label>
+        <input type="date" id="task-deadline" required>
+      </div>
+      <div class="task-input">
+        <label for="task-label">Label:</label>
+        <input type="text" id="task-label">
+      </div>
+      <div class="task-input">
+        <button type="submit">Add Task</button>
+      </div>
+    </form>
+    <div id="task-list"></div>
+  </div>
+
+  <script>
+    // Retrieve task form and task list elements
+    const taskForm = document.getElementById('task-form');
+    const taskList = document.getElementById('task-list');
+    
+    // Add event listener to task form for task creation
+    taskForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      // Retrieve task details from form inputs
+      const taskNameInput = document.getElementById('task-name');
+      const taskPriorityInput = document.getElementById('task-priority');
+      const taskDeadlineInput = document.getElementById('task-deadline');
+      const taskLabelInput = document.getElementById('task-label');
+      
+      const taskName = taskNameInput.value;
+      const taskPriority = taskPriorityInput.value;
+      const taskDeadline = taskDeadlineInput.value;
+      const taskLabel = taskLabelInput.value;
+      
+      // Create a new task item
+      const taskItem = document.createElement('div');
+      taskItem.classList.add('task-item');
+      
+      const checkbox = document.createElement('input');
+      checkbox.setAttribute('type', 'checkbox');
+      
+      const label = document.createElement('label');
+      label.textContent = taskName;
+      
+      const priority = document.createElement('span');
+      priority.classList.add('priority');
+      priority.textContent = `Priority: ${taskPriority}`;
+      
+      const deadline = document.createElement('span');
+      deadline.classList.add('deadline');
+      deadline.textContent = `Deadline: ${taskDeadline}`;
+      
+      const labelTag = document.createElement('span');
+      labelTag.classList.add('label');
+      labelTag.textContent = `Label: ${taskLabel}`;
+      
+      taskItem.appendChild(checkbox);
+      taskItem.appendChild(label);
+      taskItem.appendChild(priority);
+      taskItem.appendChild(deadline);
+      taskItem.appendChild(labelTag);
+      
+      // Add event listener to checkbox for task completion
+      checkbox.addEventListener('change', function() {
+        if (checkbox.checked) {
+          taskItem.classList.add('completed');
+        } else {
+          taskItem.classList.remove('completed');
+        }
+      });
+      
+      // Append task item to the task list
+      taskList.appendChild(taskItem);
+      
+      // Reset form inputs
+      taskNameInput.value = '';
+      taskPriorityInput.value = 'low';
+      taskDeadlineInput.value = '';
+      taskLabelInput.value = '';
+    });
+  </script>
+</body>
+</html>
